@@ -7,18 +7,6 @@ page.onResourceError = function(resourceError) {
     }
 };
 
-page.onError = function(msg, trace) {
-    system.stderr.writeLine('= onError()');
-    var msgStack = ['  ERROR: ' + msg];
-    if (trace) {
-        msgStack.push('  TRACE:');
-        trace.forEach(function(t) {
-            msgStack.push('    -> ' + t.file + ': ' + t.line + (t.function ? ' (in function "' + t.function + '")' : ''));
-        });
-    }
-    system.stderr.writeLine(msgStack.join('\n'));
-};
-
 page.open(args[1], function (status) {
     if (status == 'success') {
        //page.render('test2.png');
