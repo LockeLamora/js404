@@ -24,9 +24,10 @@ optional arguments:
   
  __e.g.:__
 ```
-python js404.py -u http://localhost -o outfile
+python js404.py -u http://localhost/index.html -o outfile
 thereisafroginmybidet.org <<< doesnt exist!
 full error: https://thereisafroginmybidet.org/woofwoof.js
+URL: http://localhost/index.html
 ```
  
  will output a file only if positive results are found.
