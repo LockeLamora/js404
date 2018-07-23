@@ -7,6 +7,7 @@ Inspired by this story of how an NHS developer mistakingly requested javascript 
 https://www.bbc.co.uk/news/technology-26016802
 
 
+requires phantomjs (apt-get install phantomjs or brew install phantomjs)
 
 usage: js404.py [-h] [-put] [-w Wordlist] -u URL
 
