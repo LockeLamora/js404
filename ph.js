@@ -1,6 +1,5 @@
 var page = require('webpage').create();
-var system = require('system');
-var args = system.args;
+var args = require('system').args;
 
 page.onResourceError = function(resourceError) {
     if (/.js/g.test(resourceError.url)) {
