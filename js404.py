@@ -51,6 +51,7 @@ def domain_existence_check(domain):
   process = Popen(["host", domain], stdout=PIPE,stderr=PIPE)
   (output, err) = process.communicate()
   exit_code = process.wait()
+  
   if 'not found' in output:
         return False
   else:
