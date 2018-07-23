@@ -14,6 +14,7 @@ def scan_for_js_errors(single, multiple, output):
       if multiple is not None:
             urls = open(multiple).read().splitlines()
             for url in urls:
+                  print ("try " + url)
                   jserrors.append(get_404_js_calls(url))
                   interpret_results(jserrors, url, output)
                   jserrors.pop
