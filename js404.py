@@ -3,7 +3,7 @@ from urlparse import urlparse
 import argparse
 
 def main(args):
-  jserrors = get_404_js_calls(args.u)
+  jserrors = get_list_of_js_errors(args.u, args.w)
   jserrors = jserrors.split('\n')
   positive_results=[]
 
@@ -16,6 +16,16 @@ def main(args):
               publish_result("full error: " + jserror, positive_results)
   if args.o:
     write_results_to_file(positive_results, args.o)
+
+def get_list_of_js_errors(single, multiple):
+      jserrors=''
+      if single is not None:
+            jserrors += get_404_js_calls(single)
+      if multiple is not None:
+            for url in multiple:
+                 jserrors += get_404_js_calls(url) 
+      
+      return jserrors
 
 def write_results_to_file(results, file):
   if len(results) < 1:
@@ -63,9 +73,11 @@ if __name__ == '__main__':
     parser.add_argument('-o', metavar = 'output', type = str,
                     help = 'Output file to write to', required = False)
    
-    required = parser.add_argument_group('required arguments')
-    required.add_argument('-u', metavar = 'URL', type = str,
-                    help = 'Single URL to scan', required = True)
+    parser.add_argument('-u', metavar = 'URL', type = str,
+                    help = 'Single URL to scan', required = False)
+
+    parser.add_argument('-w', metavar = 'url_list', type = str,
+                    help = 'A file containing multiple URLs to scan', required = False)
     
     args = parser.parse_args()
 
