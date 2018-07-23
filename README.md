@@ -10,18 +10,16 @@ https://www.bbc.co.uk/news/technology-26016802
 requires phantomjs (apt-get install phantomjs or brew install phantomjs)
 
 ```
-
-usage: js404.py [-h] -o output -u URL
+usage: js404.py [-h] [-o output] [-u URL] [-w url_list]
 
 Check for misspelled or expired external JS calls
 
 optional arguments:
-  -h, --help  show this help message and exit
-  -o output   Output file to write to
-
-required arguments:
-  -u URL      Single URL to scan
- ``` 
+  -h, --help   show this help message and exit
+  -o output    Output file to write to
+  -u URL       Single URL to scan
+  -w url_list  A file containing multiple URLs to scan
+``` 
   
   
  __e.g.:__
