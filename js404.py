@@ -3,6 +3,7 @@ from urlparse import urlparse
 import argparse
 
 def main(args):
+  print("Searching for invalid external JS paths")    
   jserrors = get_list_of_js_errors(args.u, args.w)
   jserrors = jserrors.split('\n')
   positive_results=[]
@@ -22,7 +23,8 @@ def get_list_of_js_errors(single, multiple):
       if single is not None:
             jserrors += get_404_js_calls(single)
       if multiple is not None:
-            for url in multiple:
+            urls = open(multiple).read().splitlines()
+            for url in urls:
                  jserrors += get_404_js_calls(url) 
       
       return jserrors
