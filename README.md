@@ -9,6 +9,8 @@ https://www.bbc.co.uk/news/technology-26016802
 
 requires phantomjs (apt-get install phantomjs or brew install phantomjs)
 
+```
+
 usage: js404.py [-h] [-put] [-w Wordlist] -u URL
 
 Check for misspelled or expired external JS calls
@@ -22,10 +24,10 @@ optional arguments:
 
 required arguments:
   -u URL       Single URL to scan
+ ``` 
   
   
-  
- EG:
+ __e.g.:__
  
  python js404.py -u http://example.com
  
