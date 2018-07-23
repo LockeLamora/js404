@@ -5,14 +5,29 @@ import argparse
 def main(args):
   jserrors = get_404_js_calls(args.u)
   jserrors = jserrors.split('\n')
+  positive_results=[]
 
   for jserror in jserrors:
         if not is_valid_url(jserror):
               continue
         domain = get_domain_from_string(jserror)
         if  domain_existence_check(domain) is False:
-              print(domain + ' <<< doesnt exist!')
-              print("full error: " + jserror)
+              publish_result(domain + ' <<< doesnt exist!', positive_results)
+              publish_result("full error: " + jserror, positive_results)
+  if args.o:
+    write_results_to_file(positive_results, args.o)
+
+def write_results_to_file(results, file):
+  if len(results) < 1:
+    return
+
+  outfile = open(file, 'w')
+  for result in results:
+    print >> outfile, result    
+    
+def publish_result(string, list_of_outputs):
+      list_of_outputs.append(string)
+      print(string)
 
 
 def is_valid_url(url):
@@ -44,12 +59,8 @@ def domain_existence_check(domain):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = 'Check for misspelled or expired external JS calls')
 
-    parser.add_argument('-put', action = 'store_true',
-                    help = 'If any 80 or 443 ports are found, an options scan will be performed \
-                    to check if HTTP_PUT is enabled')
-   
-    parser.add_argument('-w', metavar = 'Wordlist', type = str,
-                    help = 'Custom wordlist to use if any directory scans have been selected')
+    parser.add_argument('-o', metavar = 'output', type = str,
+                    help = 'Output file to write to', required = True)
    
     required = parser.add_argument_group('required arguments')
     required.add_argument('-u', metavar = 'URL', type = str,
