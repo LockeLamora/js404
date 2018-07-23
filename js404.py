@@ -4,41 +4,41 @@ import argparse
 
 def main(args):
   print("Searching for invalid external JS paths")    
-  jserrors = get_list_of_js_errors(args.u, args.w)
-  jserrors = jserrors.split('\n')
-  positive_results=[]
+  scan_for_js_errors(args.u, args.w, args.o)
 
-  for jserror in jserrors:
-        if not is_valid_url(jserror):
-              continue
-        domain = get_domain_from_string(jserror)
-        if  domain_existence_check(domain) is False:
-              publish_result(domain + ' <<< doesnt exist!', positive_results)
-              publish_result("full error: " + jserror, positive_results)
-  if args.o:
-    write_results_to_file(positive_results, args.o)
-
-def get_list_of_js_errors(single, multiple):
-      jserrors=''
+def scan_for_js_errors(single, multiple, output):
+      jserrors = []
       if single is not None:
-            jserrors += get_404_js_calls(single)
+            jserrors.append(get_404_js_calls(single))
+            interpret_results(jserrors, single, output)
       if multiple is not None:
             urls = open(multiple).read().splitlines()
             for url in urls:
-                 jserrors += get_404_js_calls(url) 
-      
-      return jserrors
+                  jserrors.append(get_404_js_calls(url))
+                  interpret_results(jserrors, url, output)
+                  jserrors.pop
+
+def interpret_results(jserrors, url, output):
+      for jserror in jserrors:
+            if not is_valid_url(jserror):
+                  continue
+            domain = get_domain_from_string(jserror)
+            if  domain_existence_check(domain) is False:
+                        publish_result(domain + ' <<< doesnt exist!', output)
+                        publish_result("full error: " + jserror, output)
+                        publish_result("from URL: " + url, output)
+                        publish_result("=" * 30, output)
 
 def write_results_to_file(results, file):
-  if len(results) < 1:
-    return
+      if len(results) < 1:
+            return
 
-  outfile = open(file, 'w')
-  for result in results:
-    print >> outfile, result    
+      outfile = open(file, 'a+')
+      print >> outfile, results    
     
-def publish_result(string, list_of_outputs):
-      list_of_outputs.append(string)
+def publish_result(string, output):
+      if output:
+            write_results_to_file(string, output)
       print(string)
 
 
