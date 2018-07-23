@@ -1,6 +1,60 @@
 from subprocess import Popen, PIPE
+from urlparse import urlparse
+import argparse
 
-process = Popen(["phantomjs", "--web-security=no", "--ssl-protocol=any", "--ignore-ssl-errors=yes", "ph.js", "https://cnn.com"], stdout=PIPE,stderr=PIPE)
-(output, err) = process.communicate()
-exit_code = process.wait()
-print(output)
+def main(args):
+  jserrors = get_404_js_calls(args.u)
+  jserrors = jserrors.split('\n')
+
+  for jserror in jserrors:
+        if not is_valid_url(jserror):
+              continue
+        domain = get_domain_from_string(jserror)
+        if  domain_existence_check(domain) is False:
+              print(domain + ' <<< doesnt exist!')
+              print("full error: " + jserror)
+
+
+def is_valid_url(url):
+    try:
+      result = urlparse(url)
+      return all([result.scheme, result.netloc, result.path])
+    except:
+      return False
+
+def get_404_js_calls(url):
+  process = Popen(["phantomjs", "--web-security=no", "--ssl-protocol=any", "--ignore-ssl-errors=yes", "ph.js", url], stdout=PIPE,stderr=PIPE)
+  (output, err) = process.communicate()
+  exit_code = process.wait()
+  return output
+
+def get_domain_from_string(input_string):
+  domain=input_string.split("//")[-1].split("/")[0]
+  return domain
+
+def domain_existence_check(domain):
+  process = Popen(["host", domain], stdout=PIPE,stderr=PIPE)
+  (output, err) = process.communicate()
+  exit_code = process.wait()
+  if 'not found' in output:
+        return False
+  else:
+        return True
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description = 'Check for misspelled or expired external JS calls')
+
+    parser.add_argument('-put', action = 'store_true',
+                    help = 'If any 80 or 443 ports are found, an options scan will be performed \
+                    to check if HTTP_PUT is enabled')
+   
+    parser.add_argument('-w', metavar = 'Wordlist', type = str,
+                    help = 'Custom wordlist to use if any directory scans have been selected')
+   
+    required = parser.add_argument_group('required arguments')
+    required.add_argument('-u', metavar = 'URL', type = str,
+                    help = 'Single URL to scan', required = True)
+    
+    args = parser.parse_args()
+
+    main(args)
