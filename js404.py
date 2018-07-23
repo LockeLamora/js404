@@ -51,7 +51,7 @@ def domain_existence_check(domain):
   process = Popen(["host", domain], stdout=PIPE,stderr=PIPE)
   (output, err) = process.communicate()
   exit_code = process.wait()
-  
+
   if 'not found' in output:
         return False
   else:
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = 'Check for misspelled or expired external JS calls')
 
     parser.add_argument('-o', metavar = 'output', type = str,
-                    help = 'Output file to write to', required = True)
+                    help = 'Output file to write to', required = False)
    
     required = parser.add_argument_group('required arguments')
     required.add_argument('-u', metavar = 'URL', type = str,
