@@ -50,10 +50,13 @@ def is_valid_url(url):
       return False
 
 def get_404_js_calls(url):
-  process = Popen(["phantomjs", "--web-security=no", "--ssl-protocol=any", "--ignore-ssl-errors=yes", "ph.js", url], stdout=PIPE,stderr=PIPE)
-  (output, err) = process.communicate()
-  exit_code = process.wait()
-  return output
+      try:    
+            process = Popen(["phantomjs", "--web-security=no", "--ssl-protocol=any", "--ignore-ssl-errors=yes", "ph.js", url], stdout=PIPE,stderr=PIPE)
+            (output, err) = process.communicate()
+            exit_code = process.wait()
+            return output
+      except:
+            return
 
 def get_domain_from_string(input_string):
   domain=input_string.split("//")[-1].split("/")[0]
