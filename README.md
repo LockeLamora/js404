@@ -25,7 +25,10 @@ required arguments:
   
   
  __e.g.:__
- 
- python js404.py -u http://example.com
+```
+python js404.py -u http://localhost -o outfile
+alickisjustsogreat.com <<< doesnt exist!
+full error: https://alickisjustsogreat.com/countToTen.js
+```
  
  will output a file only if positive results are found.
