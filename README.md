@@ -27,8 +27,8 @@ required arguments:
  __e.g.:__
 ```
 python js404.py -u http://localhost -o outfile
-alickisjustsogreat.com <<< doesnt exist!
-full error: https://alickisjustsogreat.com/countToTen.js
+thereisafroginmybidet.org <<< doesnt exist!
+full error: https://thereisafroginmybidet.org/woofwoof.js
 ```
  
  will output a file only if positive results are found.
