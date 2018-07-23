@@ -11,19 +11,16 @@ requires phantomjs (apt-get install phantomjs or brew install phantomjs)
 
 ```
 
-usage: js404.py [-h] [-put] [-w Wordlist] -u URL
+usage: js404.py [-h] -o output -u URL
 
 Check for misspelled or expired external JS calls
 
 optional arguments:
-  -h, --help   show this help message and exit
-  -put         If any 80 or 443 ports are found, an options scan will be
-               performed to check if HTTP_PUT is enabled
-  -w Wordlist  Custom wordlist to use if any directory scans have been
-               selected
+  -h, --help  show this help message and exit
+  -o output   Output file to write to
 
 required arguments:
-  -u URL       Single URL to scan
+  -u URL      Single URL to scan
  ``` 
   
   
